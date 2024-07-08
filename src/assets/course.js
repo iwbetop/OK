@@ -1,0 +1,38 @@
+const course = [
+    { name: "Bachelor of Science in Computer Science" },
+    { name: "Bachelor of Science in Information Technology" },
+    { name: "Bachelor of Science in Civil Engineering" },
+    { name: "Bachelor of Science in Computer Engineering" },
+    { name: "Bachelor of Science in Electrical Engineering" },
+    { name: "Bachelor of Science in Electronic Engineering" },
+    { name: "Bachelor of Science in Mechanical Engineering" },
+    { name: "Bachelor of Early Childhood Education" },
+    { name: "Bachelor of Elementary Education" },
+    { name: "Bachelor of Elementary Education Major in Early Childhood Education" },
+    { name: "Bachelor of Elementary Education Major in General Education" },
+    { name: "Bachelor of Elementary Education Major in Special Education" },
+    { name: "Bachelor of Secondary Education Major in English" },
+    { name: "Bachelor of Secondary Education Major in Filipino" },
+    { name: "Bachelor of Secondary Education Major in Mathematics" },
+    { name: "Bachelor of Secondary Education Major in Science" },
+    { name: "Bachelor of Special Needs Education: Generalist" },
+    { name: "Bachelor of Science in Accountancy" },
+    { name: "Bachelor of Science in Business Administration Major in Financial Management" },
+    { name: "Bachelor of Science in Business Administration Major in Management Accounting" },
+    { name: "Bachelor of Science in Business Administration Major in Marketing Management" },
+    { name: "Bachelor of Science in Tourism Management" },
+    { name: "Bachelor of Arts in Mass Communication" },
+    { name: "Bachelor of Science in Hospitality Management" },
+    { name: "Bachelor of Science in Psychology" },
+    { name: "Bachelor of Science in Nursing" },
+    { name: "Bachelor of Science in Criminology" },
+    { name: "Doctor of Philosophy Educational Leadership and Management" },
+    { name: "Master in Education Major in Educational Leadership" },
+    { name: "Master in Education Major in English Language Teaching" },
+    { name: "Master in Information Technology" },
+    { name: "Master of Arts in Education Major in Educational Management" },
+]
+
+module.exports = {
+    course
+}

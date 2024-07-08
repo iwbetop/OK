@@ -1,0 +1,212 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(uuid())
+  email String @unique
+  password String
+  verified DateTime?
+  // enums
+  status UserStatus @default(ACTIVE)
+  gender Gender @default(OTHER)
+  privacy Privacy @default(PUBLIC)
+  // cannot edit
+  firstName String?
+  middleName String?
+  lastName String?
+  birthday DateTime?
+  street String?
+  city String?
+  province String?
+  guardianPhone String?
+  personalEmail String?
+  phoneNumber String?
+  // can edit
+  biography String?
+  image String?
+  // booleans
+  onbordedStatus Boolean @default(false)
+  educationalStatus EducationalStatus @default(ENROLLED)
+  // relationship(fk)
+  roleId String?
+  role Role? @relation(fields: [roleId], references: [id])
+  courseId String?
+  course Course? @relation(fields: [courseId], references: [id])
+  educations Education[]
+  achievements Achievement[]
+  projects Project[]
+  skill UserSkill[]
+  social SocialLink[]
+  reports Report[] @relation(name: "Reporter")
+  reportsReceived Report[] @relation(name: "ReportedUser")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+}
+
+model Role {
+  id String @id @default(uuid())
+  name Roles @default(USER)
+  user User[]
+  permissions RolePermission[]
+}
+
+model Permission {
+  id String @id @default(uuid())
+  name String
+  description String
+  role RolePermission[]
+}
+
+model RolePermission {
+  id String @id @default(uuid())
+  roleId String 
+  permissionId String
+  role Role @relation(fields: [roleId], references: [id])
+  permission Permission @relation(fields: [permissionId], references: [id])
+}
+
+// USER
+model Course {
+  id String @id @default(uuid())
+  name String
+  user User[]
+}
+
+model Education {
+  id String @id @default(uuid())
+  name String
+  dateStarted DateTime
+  dateEnded DateTime
+  userId String
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Achievement {
+  id String @id @default(uuid())
+  name String
+  dateAchieved DateTime
+  description String
+  category AchievementCategory
+  userId String
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Project {
+  id String @id @default(uuid())
+  name String
+  dateCompleted DateTime
+  description String
+  userId String
+  user User @relation(fields: [userId], references: [id])
+}
+
+model SocialLink {
+  id        String      @id @default(uuid())
+  userId    String
+  platform  SocialPlatform  @default(OTHER)
+  url       String
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Skill {
+  id String @id @default(uuid())
+  name String
+  user UserSkill[]
+}
+
+model UserSkill {
+  id String @id @default(uuid())
+  userId String
+  skillId String
+  skill Skill @relation(fields: [skillId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Report {
+  id          String  @id @default(uuid())  
+  userId  String
+  reportedUserId String
+  reportReason String
+  createdAt  DateTime @default(now())
+  status      ReportStatus @default(PENDING)
+  user User @relation(fields: [userId], references: [id], name: "Reporter")
+  reportedUser User @relation(fields: [reportedUserId], references: [id], name: "ReportedUser")
+}
+
+// Authentication
+model PasswordToken {
+  id String @id @default(cuid())
+  token String
+  email String
+  expires DateTime
+  @@unique([token, email])
+}
+
+model EmailToken {
+  id String @id @default(cuid())
+  token String
+  email String
+  expires DateTime
+  password String?
+  @@unique([token, email])
+}
+
+
+enum Roles {
+  USER 
+  ADMIN 
+  SUPERADMIN
+}
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  LOCKED
+  ARCHIEVED
+}
+enum Gender {
+  MALE 
+  FEMALE 
+  OTHER
+}
+enum Privacy {
+  PUBLIC
+  PRIVATE
+}
+enum AchievementCategory {
+  SPECIAL
+  ACADEMIC
+  EXTRA_CURRICULUM
+}
+enum EducationalStatus {
+  ENROLLED
+  GRADUATED
+  LEFT
+}
+enum ReportStatus {
+  PENDING
+  RESOLVED
+  CLOSED
+}
+enum SocialPlatform {
+  FACEBOOK
+  LINKEDIN
+  INSTAGRAM
+  TWITTER
+  GITHUB
+  BEHANCE
+  DRIBBLE
+  YOUTUBE
+  OTHER
+}
